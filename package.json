@@ -2,11 +2,12 @@
   "name": "helo",
   "version": "0.1.0",
   "private": true,
-  "main" : "./server/server.js",
+  "main": "./server/server.js",
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
+    "massive": "^4.7.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
     "react-redux": "^5.0.7",
