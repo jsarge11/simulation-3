@@ -14,7 +14,8 @@ let {
 } = process.env;
 
 app.post('/api/register', ctrl.register);
-app.post('/api/login', ctrl.login)
+app.post('/api/login', ctrl.login);
+app.get('/api/posts', ctrl.getposts);
 
 massive(CONNECTION_STRING).then( dbInstance => {
  app.set('db', dbInstance);

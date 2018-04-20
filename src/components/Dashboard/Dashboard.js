@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 export default class Dashboard extends React.Component{
  state = {
@@ -12,6 +13,11 @@ export default class Dashboard extends React.Component{
  updateMyPosts() {
   this.state.myPosts ? this.setState({myPosts: false}) : this.setState({myPosts: true})
 
+ }
+ search() {
+  // axios.get('/api/posts/?id=' + this.props.id ?search=' + this.state.searchinput).then( res => {})
+
+ 
  }
  render() {
   let list = this.state.map.postList((item, i) => {
@@ -28,7 +34,7 @@ export default class Dashboard extends React.Component{
     {console.log(this.state.myPosts)}
     Dashboard
     <input type="text" placeholder="search ... " value={this.state.searchinput} onChange={(e)=>this.updateSearch(e.target.value)}/>
-    <button>search</button>
+    <button onClick={()=>this.search()}>search</button>
     <button>reset</button>
     <input type="checkbox" name="my posts" onChange={()=>this.updateMyPosts()}/>
     {list}

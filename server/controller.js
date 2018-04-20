@@ -25,5 +25,30 @@ module.exports = {
     res.status(401).send("wrong username");
    }
   })
+ },
+
+ getposts: (req, res, next) => {
+  const db = req.app.get('db');
+  if (req.query.myposts && req.query.search) {
+    db.get_posts_both_true(`%${req.query.search}%`).then (posts => {
+      res.status(200).send( posts );
+    })
+  }
+  else if (!req.query.myposts && !req.query.search) {
+    db.get_posts_both_false(req.query.id).then ( posts => {
+      res.status(200).send( posts );
+    })
+  }
+  else if (!req.query.myposts && req.query.search) {
+    db.get_posts_search_true(`%${req.query.search}%`,req.query.id).then ( posts => {
+      res.status(200).send( posts );
+    })
+  }
+  else {
+   db.get_all_posts().then ( posts => {
+     res.status(200).send ( posts );
+   })
+  }
+
  }
 }
