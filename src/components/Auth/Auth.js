@@ -35,6 +35,7 @@ class Auth extends React.Component{
     this.setState({ 
      username: '',
      password: '',
+     loggedIn: true
     })
 
     this.props.updateUser(res.data[0].user_display_name, res.data[0].img, res.data[0].user_id )

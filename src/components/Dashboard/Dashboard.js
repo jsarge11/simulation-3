@@ -1,11 +1,15 @@
 import React from 'react'
 import axios from 'axios'
+import {connect} from 'react-redux'
 
-export default class Dashboard extends React.Component{
+class Dashboard extends React.Component{
  state = {
   searchinput: '',
   myPosts: false,
   postList: []
+ }
+ componentDidMount() {
+  this.search();
  }
  updateSearch(value) {
   this.setState({ searchinput: value })
@@ -15,17 +19,25 @@ export default class Dashboard extends React.Component{
 
  }
  search() {
-  // axios.get('/api/posts/?id=' + this.props.id ?search=' + this.state.searchinput).then( res => {})
-
- 
+  let isMyPost = this.state.myPosts ? 'true' : ''
+  console.log(this.props.id);
+  axios.get(`/api/posts?search=${this.state.searchinput}&myposts=${isMyPost}&id=${this.props.user_id}`)
+  .then( res => {
+   this.setState({ postList: res.data})
+  })
  }
+ reset() {
+  this.search();
+  this.setState({ searchinput: ''})
+ }
+
  render() {
-  let list = this.state.map.postList((item, i) => {
+  let list = this.state.postList.map((item, i) => {
    return (
     <div>
      {item.post_title} <br/>
-     {item.author}
-     {item.authorimg}
+     {item.user_display_name}
+ 
     </div>
    )
   })
@@ -36,9 +48,16 @@ export default class Dashboard extends React.Component{
     <input type="text" placeholder="search ... " value={this.state.searchinput} onChange={(e)=>this.updateSearch(e.target.value)}/>
     <button onClick={()=>this.search()}>search</button>
     <button>reset</button>
-    <input type="checkbox" name="my posts" onChange={()=>this.updateMyPosts()}/>
+    <input type="checkbox" name="my posts" onChange={()=>this.updateMyPosts()} />
     {list}
    </div>
   )
  }
 }
+function mapStateToProps(state) {
+ let {id} = state;
+ return {
+  id
+ }
+}
+export default connect(mapStateToProps)(Dashboard)
