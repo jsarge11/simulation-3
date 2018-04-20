@@ -1,8 +1,10 @@
 import React from 'react'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { updateUser } from '../../ducks/reducer'
 
-export default class Auth extends React.Component{
+class Auth extends React.Component{
  state = {
   user_display_name: '',
   user_password: '',
@@ -23,6 +25,8 @@ export default class Auth extends React.Component{
     user_password: '',
     loggedIn: true
    })
+
+   this.props.updateUser(res.data[0].user_display_name, res.data[0].img, res.data[0].user_id )
   })
  }
  login() {
@@ -32,7 +36,8 @@ export default class Auth extends React.Component{
      username: '',
      password: '',
     })
-    console.log(res);
+
+    this.props.updateUser(res.data[0].user_display_name, res.data[0].img, res.data[0].user_id )
   }).catch();
  }
  render() {
@@ -49,3 +54,5 @@ export default class Auth extends React.Component{
   )
  }
 }
+
+export default connect(null, {updateUser})(Auth)

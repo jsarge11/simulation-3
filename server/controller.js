@@ -13,7 +13,6 @@ module.exports = {
 
 
   db.get_user([user_display_name]).then( user => {
-   console.log(user);
    if(user[0]) {
     if (user[0].user_password === user_password) {
      res.status(200).send( user );
