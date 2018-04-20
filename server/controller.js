@@ -27,7 +27,7 @@ module.exports = {
   })
  },
 
- getposts: (req, res, next) => {
+ getposts: (req, res) => {
   const db = req.app.get('db');
   if (req.query.myposts && req.query.search) {
     db.get_posts_both_true(`%${req.query.search}%`).then (posts => {
@@ -50,5 +50,12 @@ module.exports = {
    })
   }
 
+ },
+ get_single_post: (req, res) => {
+  const db = req.app.get('db');
+  
+  db.get_single_post(req.params.id).then( post => {
+    res.status(200).send( post );
+  })
  }
 }

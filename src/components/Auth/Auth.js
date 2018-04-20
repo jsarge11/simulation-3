@@ -10,6 +10,10 @@ class Auth extends React.Component{
   user_password: '',
   loggedIn: false,
  }
+
+ componentDidMount() {
+  return axios.get('api/user');
+ }
  
  updateDisplayName(value) {
   this.setState({user_display_name: value})
@@ -17,40 +21,13 @@ class Auth extends React.Component{
  updatePassword(value) {
   this.setState({user_password: value})
  }
- register() {
-  let { user_display_name, user_password } = this.state;
-  axios.post('/api/register', {user_display_name, user_password}).then (res => {
-   this.setState({
-    user_display_name: '',
-    user_password: '',
-    loggedIn: true
-   })
-
-   this.props.updateUser(res.data[0].user_display_name, res.data[0].img, res.data[0].user_id )
-  })
- }
- login() {
-  let { user_display_name, user_password } = this.state;
-  axios.post('/api/login', {user_display_name, user_password}).then( res => { // so it only goes into here if 200 is returned
-    this.setState({ 
-     username: '',
-     password: '',
-     loggedIn: true
-    })
-
-    this.props.updateUser(res.data[0].user_display_name, res.data[0].img, res.data[0].user_id )
-  }).catch();
- }
  render() {
   if (this.state.loggedIn) {
    return <Redirect push to='/dashboard'/>
   }
   return (
    <div>
-    Username: <input type="text" onChange={(e)=>this.updateDisplayName(e.target.value)} value={this.state.user_display_name}/><br/>
-    Password: <input type="password" onChange={(e)=>this.updatePassword(e.target.value)} value={this.state.user_password}/><br/>
-    <button onClick={()=>this.login()}>Login</button>
-    <button onClick={()=>this.register()}>Register</button><br/>
+   <a href="http://localhost:4000/auth"><button>Login with a third party.</button></a>
    </div>
   )
  }
